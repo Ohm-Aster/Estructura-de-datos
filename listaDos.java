@@ -50,13 +50,50 @@ public class listaDos {
             System.out.println("\n La lista se encuentra vacia\n");
         }
     }
-    
-     public void EliminarPersonalizado(char target) {
+
+    public void insertarPersonalizado(char target, int pos) {
+        Nodo actual = inicio;
+        Nodo nuevo = new Nodo();
+        nuevo.letra = target;
+        Nodo anterior = null;
+        int cont = 1;
+        boolean encontrado = false;
+        if (inicio != null) {
+            while (actual != null) {
+                if (cont == pos) {
+                    if (actual == inicio) {
+                        
+                        nuevo.siguiente = inicio;
+                        inicio = nuevo;
+                    } else if (actual == fin) {
+                        fin.siguiente = nuevo;
+                        nuevo.siguiente = null;
+                        fin = nuevo;
+                    } else {
+                        anterior.siguiente = nuevo;
+                        nuevo.siguiente = actual;
+                        System.out.println("\n Nodo gregado\n");
+                        encontrado = true;
+                    }
+                }
+                anterior = actual;
+                actual = actual.siguiente;
+                cont++;
+            }
+            if (!encontrado) {
+                System.out.println("\n posicion no existe \n");
+            }
+        } else {
+            System.out.println("\n La lista se encuentra vacia\n");
+        }
+    }
+
+    public void EliminarPersonalizado(char target) {
         Nodo actual = inicio;
         Nodo anterior = null;
         boolean encontrado = false;
         if (inicio != null) {
-            while (actual != null && encontrado != true) {            
+            while (actual != null) {
                 if (actual.letra == target) {
                     if (actual == inicio) {
                         inicio = inicio.siguiente;
@@ -79,7 +116,7 @@ public class listaDos {
             System.out.println("\n La lista se encuentra vacia\n");
         }
     }
-    
+
     public void MostrarLista() {
         Nodo actual = inicio;
         if (inicio != null) {
@@ -97,11 +134,11 @@ public class listaDos {
         boolean encontrado = false;
         char nodoBuscado = temp;
         if (inicio != null) {
-            while (actual != null ) {
+            while (actual != null) {
                 if (actual.letra == nodoBuscado) {
-                    System.out.println("\n Nodo con el dato (" + actual.letra 
+                    System.out.println("\n Nodo con el dato (" + actual.letra
                             + ") Encontrado \n");
-                    encontrado=true;
+                    encontrado = true;
                 }
                 actual = actual.siguiente;
             }
@@ -117,6 +154,7 @@ public class listaDos {
         listaDos obj = new listaDos();
         Scanner sc = new Scanner(System.in);
         int opt;
+        char target;
         do {
             System.out.println("\n║1. Insertar ║\n"
                     + "║2. Mostrar  ║\n"
@@ -124,7 +162,8 @@ public class listaDos {
                     + "║4. Eliminar ultimo║\n"
                     + "║5. buscar║\n"
                     + "║6. Eliminar especial║\n"
-                    + "║7. Salir ║");
+                    + "║7. insertar especial║\n"
+                    + "║8. Salir ║");
             switch (opt = sc.nextInt()) {
                 case 1:
                     for (int i = 0; i < 26; i++) {
@@ -148,16 +187,23 @@ public class listaDos {
                     break;
                 case 6:
                     System.out.print(" Ingrese el dato del nodo a Eliminar: ");
-                    char target = sc.next().charAt(0);
+                    target = sc.next().charAt(0);
                     obj.EliminarPersonalizado(target);
                     break;
                 case 7:
+                    System.out.print(" Ingrese el dato: ");
+                    target = sc.next().charAt(0);
+                    System.out.print(" Ingrese el posicion: ");
+                    int pos = sc.nextInt();
+                    obj.insertarPersonalizado(target, pos);
+                    break;
+                case 8:
                     System.exit(0);
                     break;
                 default:
                     System.out.println("\n\n OPCION NO VALIDA \n");
                     break;
             }
-        } while (opt != 7);
+        } while (opt != 8);
     }
 }
